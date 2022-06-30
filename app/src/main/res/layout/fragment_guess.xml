@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark"
+    android:padding="20dp"
+    tools:context=".MainPageFragment">
+
+    <TextView
+        android:id="@+id/lifeTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/lifeTextView"
+        android:textColor="@color/light_blue"
+        android:textSize="34sp"
+        android:contentDescription="@string/lifeDesc"
+        app:drawableEndCompat="@drawable/life_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/increaseImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/increase"
+        android:src="@drawable/increase_icon"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/pink" />
+
+    <TextView
+        android:id="@+id/increaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/increase"
+        android:textColor="@color/pink"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/increaseImageView" />
+
+
+    <ImageButton
+        android:id="@+id/decrease5Button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/decrease5ButtonDesc"
+        android:src="@drawable/decrease5_icon"
+        app:layout_constraintEnd_toStartOf="@+id/decrease1Button"
+        app:layout_constraintTop_toBottomOf="@+id/increaseTextView"
+        app:tint="@color/light_blue" />
+
+    <ImageButton
+        android:id="@+id/decrease1Button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/decrease1ButtonDesc"
+        android:src="@drawable/decrease1_icon"
+        app:layout_constraintEnd_toStartOf="@+id/guessEditText"
+        app:layout_constraintTop_toBottomOf="@+id/increaseTextView"
+        app:tint="@color/light_blue" />
+
+    <EditText
+        android:id="@+id/guessEditText"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/number"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/increaseTextView" />
+
+    <ImageButton
+        android:id="@+id/increase1Button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/increase1ButtonDesc"
+        android:src="@drawable/increase1_icon"
+        app:layout_constraintStart_toEndOf="@+id/guessEditText"
+        app:layout_constraintTop_toBottomOf="@+id/increaseTextView"
+        app:tint="@color/light_blue" />
+
+    <ImageButton
+        android:id="@+id/increase5Button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/increase5ButtonDesc"
+        android:src="@drawable/increase5_icon"
+        app:layout_constraintStart_toEndOf="@+id/increase1Button"
+        app:layout_constraintTop_toBottomOf="@+id/increaseTextView"
+        app:tint="@color/light_blue" />
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/light_blue"
+        android:text="@string/send"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guessEditText" />
+
+    <TextView
+        android:id="@+id/decreaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/decrease"
+        android:textColor="@color/pink"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
+
+    <ImageView
+        android:id="@+id/decreaseImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:contentDescription="@string/decrease"
+        android:src="@drawable/decrease_icon"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/decreaseTextView"
+        app:tint="@color/pink" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
