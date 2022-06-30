@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Guess The Number</string>
+    <string name="mainPage">Main Page</string>
+    <string name="profile">Profile</string>
+    <string name="increase">Increase</string>
+    <string name="decrease">Decrease</string>
+    <string name="number">Number</string>
+    <string name="send">Send</string>
+    <string name="hundred" translatable="false">100</string>
+    <string name="lifeTextView" translatable="false">10</string>
+    <string name="numberTextView" translatable="false">1</string>
+    <string name="win">Congratulations!\nYou found the number.</string>
+    <string name="lose">Game Over!\nYou couldn\'t find the number.</string>
+    <string name="player">Player</string>
+    <string name="changeName">Change Name</string>
+    <string name="save">Save</string>
+    <string name="nameEditText">Enter your name</string>
+    <string name="numberWarning">Please guess a number between 0 and 100.</string>
+    <string name="guessWarning">Please take a guess.</string>
+    <string name="play">Play</string>
+    <string name="replay">Replay</string>
+    <string name="decrease5ButtonDesc">Subtract 5 from the number</string>
+    <string name="decrease1ButtonDesc">Subtract 1 from the number</string>
+    <string name="increase5ButtonDesc">Add 5 to the number</string>
+    <string name="increase1ButtonDesc">Add 1 to the number</string>
+    <string name="highScore">High Score: %d</string>
+    <string name="lifeDesc">Remaining Life</string>
+</resources>
