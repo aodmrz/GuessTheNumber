@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -19,6 +20,7 @@ class GuessFragment : Fragment() {
 
     private var _binding:FragmentGuessBinding? = null
     private val binding get() = _binding!!
+    private var life: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,13 +36,16 @@ class GuessFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Definition of the player's life
-        var life = 10
+        updateLife(10)
+
         //Selection of target number
-        val number = (1..100).random()
+        val number = (1..100).toList().shuffled().random()
+        //.toList().shuffled() seems redundant,
+        // but avoids "the same random loop issue" that occurs after restarting the app
 
 
         binding.apply {
-            //decrease5Button click activity
+            //decrease1Button click activity
             decrease1Button.setOnClickListener {
 
                 //Subtraction of 1 from the number
@@ -48,7 +53,7 @@ class GuessFragment : Fragment() {
                 guessEditText.hideKeyboard()
             }
 
-            //increase5Button click activity
+            //increase1Button click activity
             increase1Button.setOnClickListener {
 
                 //Addition of 1 to the number
@@ -74,80 +79,17 @@ class GuessFragment : Fragment() {
 
         }
 
+        //Software keyboard enter activity
+        binding.guessEditText.setOnEditorActionListener { _, actionId, _ ->
+
+            val done = (actionId == EditorInfo.IME_ACTION_DONE)
+            if(done) sendNumber(number)
+            done
+        }
+
         //Send button click activity
         binding.sendButton.setOnClickListener {
-
-            binding.guessEditText.hideKeyboard()
-            //Getting guessed number in EditText
-            val guessStr = binding.guessEditText.text.toString()
-
-            //Empty EditText check
-            if (guessStr != "" && (guessStr.toInt() > 100 || guessStr.toInt() < 0)) {
-
-                //Show number out of range warning
-                Toast.makeText(context, getString(R.string.numberWarning), Toast.LENGTH_SHORT).show()
-
-            }  else if(guessStr == "") {
-
-                //Show take a guess warning
-                Toast.makeText(context, getString(R.string.guessWarning), Toast.LENGTH_SHORT).show()
-            } else {
-
-                //Reduction of player's life
-                life -= 1
-                binding.lifeTextview.text = life.toString()
-
-                //Conversion of guessed number to integer
-                val guess = guessStr.toInt()
-
-                //Comparison of guessed number and target number
-                if(life == 0 && guess != number) {
-
-                    //If the player runs out of life
-                    //Navigate to the ResultFragment with result = false
-                    val send = GuessFragmentDirections.guessToResult(false,number)
-                    findNavController().navigate(send)
-
-                } else if (guess > number){
-                    binding.apply {
-
-                        //Making decreaseViews visible and increaseViews invisible
-                        changeVisibility(decreaseImageView,decreaseTextView)
-                        changeVisibility(increaseImageView,increaseTextView,false)
-                    }
-
-                } else if (guess < number){
-                    binding.apply {
-
-                        //Making increaseViews visible and decreaseViews invisible
-                        changeVisibility(increaseImageView,increaseTextView)
-                        changeVisibility(decreaseImageView,decreaseTextView,false)
-                    }
-
-                } else if (guess == number){
-
-                    binding.apply {
-
-                        //Making decreaseViews invisible and increaseViews invisible
-                        changeVisibility(decreaseImageView,decreaseTextView,false)
-                        changeVisibility(increaseImageView,increaseTextView,false)
-                    }
-
-                    //If the player wins the game
-                    //Setting the high score to SharedPrefs
-                    val preferences = this.activity?.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
-                    val editor = preferences?.edit()
-                    val highScore: Int = preferences?.getInt(HIGH_SCORE,10)!!.toInt()
-                    if ((10-life) < highScore) {
-                        editor?.putInt(HIGH_SCORE, (10 - life))
-                        editor?.apply()
-                    }
-
-                    //Navigate to the ResultFragment with result = true
-                    val send = GuessFragmentDirections.guessToResult(true,number)
-                    findNavController().navigate(send)
-                }
-            }
+            sendNumber(number)
         }
 
     }
@@ -183,6 +125,100 @@ class GuessFragment : Fragment() {
                 number.setText(R.string.hundred)
             }
         }
+    }
+
+    private fun sendNumber(number: Int) {
+        /**
+         * This function takes an integer named number.
+         * It guides the user according to the equality of the number with the guessed number.
+         * If life is over or player wins the game then it sends the user to ResultFragment.
+         *
+         * @param number Target number to guess
+         *
+         */
+
+        binding.guessEditText.hideKeyboard()
+        //Getting guessed number in EditText
+        val guessStr = binding.guessEditText.text.toString()
+
+        //Empty EditText check
+        if (guessStr != "" && (guessStr.toInt() > 100 || guessStr.toInt() < 0)) {
+
+            //Show number out of range warning
+            Toast.makeText(context, getString(R.string.numberWarning), Toast.LENGTH_SHORT).show()
+
+        }  else if(guessStr == "") {
+
+            //Show take a guess warning
+            Toast.makeText(context, getString(R.string.guessWarning), Toast.LENGTH_SHORT).show()
+        } else {
+
+            //Reduction of player's life
+            life?.let { updateLife(life!!-1) }
+
+            //Conversion of guessed number to integer
+            val guess = guessStr.toInt()
+
+            //Comparison of guessed number and target number
+            if(life == 0 && guess != number) {
+
+                //If the player runs out of life
+                //Navigate to the ResultFragment with result = false
+                val send = GuessFragmentDirections.guessToResult(false,number)
+                findNavController().navigate(send)
+
+            } else if (guess > number){
+                binding.apply {
+
+                    //Making decreaseViews visible and increaseViews invisible
+                    changeVisibility(decreaseImageView,decreaseTextView)
+                    changeVisibility(increaseImageView,increaseTextView,false)
+                }
+
+            } else if (guess < number){
+                binding.apply {
+
+                    //Making increaseViews visible and decreaseViews invisible
+                    changeVisibility(increaseImageView,increaseTextView)
+                    changeVisibility(decreaseImageView,decreaseTextView,false)
+                }
+
+            } else if (guess == number){
+
+                binding.apply {
+
+                    //Making decreaseViews invisible and increaseViews invisible
+                    changeVisibility(decreaseImageView,decreaseTextView,false)
+                    changeVisibility(increaseImageView,increaseTextView,false)
+                }
+
+                //If the player wins the game
+                //Setting the high score to SharedPrefs
+                val preferences = this.activity?.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+                val editor = preferences?.edit()
+                val highScore: Int = preferences?.getInt(HIGH_SCORE,10)!!.toInt()
+                life?.let {
+                    if ((10-life!!) < highScore) {
+                        editor?.putInt(HIGH_SCORE, (10 - life!!))
+                        editor?.apply()
+                    }
+                }
+
+                //Navigate to the ResultFragment with result = true
+                val send = GuessFragmentDirections.guessToResult(true,number)
+                findNavController().navigate(send)
+            }
+        }
+    }
+
+    private fun updateLife(l: Int){
+        /**
+         * This function defines or updates player's life.
+         */
+
+        life = l
+        binding.lifeTextview.text = l.toString()
+        binding.lifeTextview.contentDescription = String.format(getString(R.string.lifeDesc), l)
     }
 
     private fun changeVisibility(image: ImageView, text: TextView, visible: Boolean = true){

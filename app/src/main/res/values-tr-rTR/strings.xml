@@ -22,5 +22,5 @@
     <string name="increase5ButtonDesc">Sayıya 5 ekle</string>
     <string name="increase1ButtonDesc">Sayıya 1 ekle</string>
     <string name="highScore">En Yüksek Skor: %d</string>
-    <string name="lifeDesc">Kalan Can</string>
+    <string name="lifeDesc">Kalan Can: %d</string>
 </resources>
